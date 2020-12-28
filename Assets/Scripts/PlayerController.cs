@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody2D playerRb;
+
     [SerializeField] float speed;
 
     public Vector2 direction;
@@ -11,24 +13,29 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerRb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         TakeInput();
+    }
+
+    private void FixedUpdate()
+    {
         Move();
     }
 
     private void Move()
     {
-        transform.Translate(direction * speed * Time.deltaTime);
+        /*transform.Translate(direction * speed * Time.deltaTime);*/
+        playerRb.MovePosition(playerRb.position + direction * speed * Time.fixedDeltaTime);
     }
 
     private void TakeInput()
     {
-        direction = Vector2.zero;
+        /*direction = Vector2.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -45,6 +52,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             direction += Vector2.right;
-        }
+        }*/
+
+        direction.x = Input.GetAxis("Horizontal");
+        direction.y = Input.GetAxis("Vertical");
     }
 }
