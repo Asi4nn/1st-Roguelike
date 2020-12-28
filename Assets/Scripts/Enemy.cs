@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     public float health;
     public float maxHealth;
+    public GameObject healthBar;
+    public Slider healthSlider;
 
     [SerializeField] float speed;
 
@@ -23,7 +26,9 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage(float damage)
     {
+        healthBar.SetActive(true);
         health -= damage;
+        healthSlider.value = CalculateHealthPercent();
         CheckDeath();
     }
 
@@ -39,5 +44,10 @@ public class Enemy : MonoBehaviour
     {
         PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
         transform.Translate((player.transform.position - transform.position).normalized * speed * Time.deltaTime);
+    }
+
+    private float CalculateHealthPercent()
+    {
+        return health / maxHealth;
     }
 }
