@@ -10,6 +10,15 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 direction;
 
+    private enum Facing
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+    private Facing facingDirection = Facing.UP;
+
     // Start is called before the first frame update
     void Start()
     {

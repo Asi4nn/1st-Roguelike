@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats playerStats;
 
     public GameObject player;
+    public Text healthText;
+    public Slider healthSlider;
 
     public float health;
     public float maxHealth;
@@ -29,6 +32,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        UpdateHealth();
     }
 
     // Update is called once per frame
@@ -40,6 +44,7 @@ public class PlayerStats : MonoBehaviour
     public void DealDamage(float damage)
     {
         health -= damage;
+        UpdateHealth();
         CheckDeath();
     }
 
@@ -47,6 +52,7 @@ public class PlayerStats : MonoBehaviour
     {
         health += heal;
         CheckOverheal();
+        UpdateHealth();
     }
 
     private void CheckDeath()
@@ -54,6 +60,7 @@ public class PlayerStats : MonoBehaviour
         if (health <= 0)
         {
             Destroy(player);
+            health = 0;
         }
     }
 
@@ -63,5 +70,25 @@ public class PlayerStats : MonoBehaviour
         {
             health = maxHealth;
         }
+    }
+
+    private float CalculateHealthPercent()
+    {
+        return health / maxHealth;
+    }
+
+    private void UpdateHealth()
+    {
+        healthSlider.value = CalculateHealthPercent();
+        if (health < 0)
+        {
+            healthText.text = "0/" + maxHealth.ToString();
+        }
+        else
+        {
+            healthText.text = healthText.text = Mathf.Ceil(health).ToString() + "/" + maxHealth.ToString();
+        }
+        
+
     }
 }

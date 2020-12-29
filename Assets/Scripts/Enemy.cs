@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveToPlayer();
+        // MoveToPlayer();
     }
 
     public void DealDamage(float damage)
