@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    private Animator animator;
+
     private Rigidbody2D playerRb;
 
     [SerializeField] float speed;
@@ -22,6 +25,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
+
         playerRb = GetComponent<Rigidbody2D>();
     }
 
@@ -65,5 +70,13 @@ public class PlayerController : MonoBehaviour
 
         direction.x = Input.GetAxis("Horizontal");
         direction.y = Input.GetAxis("Vertical");
+        SetAnimatorMovement();
+    }
+
+    private void SetAnimatorMovement()
+    {
+        animator.SetFloat("xDir", direction.x);
+        animator.SetFloat("yDir", direction.y);
+        print(animator.GetFloat("xDir"));
     }
 }
