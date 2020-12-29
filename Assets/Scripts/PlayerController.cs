@@ -77,6 +77,6 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetFloat("xDir", direction.x);
         animator.SetFloat("yDir", direction.y);
-        print(animator.GetFloat("xDir"));
+        // print(animator.GetFloat("xDir"));
     }
 }

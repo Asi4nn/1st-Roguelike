@@ -14,6 +14,10 @@ public class PlayerStats : MonoBehaviour
     public float health;
     public float maxHealth;
 
+    private bool isInvincible = false;
+    [SerializeField] float invincibilityTime;
+    [SerializeField] float invincibilityDeltaTime;
+
     private void Awake()
     {
         if (playerStats != null)
@@ -43,9 +47,15 @@ public class PlayerStats : MonoBehaviour
 
     public void DealDamage(float damage)
     {
-        health -= damage;
-        UpdateHealth();
-        CheckDeath();
+        if (!isInvincible)
+        {
+            health -= damage;
+            UpdateHealth();
+            if (!CheckDeath())
+            {
+                StartCoroutine(BecomeTempInvincible());
+            }
+        }
     }
 
     public void HealCharacter(float heal)
@@ -55,13 +65,15 @@ public class PlayerStats : MonoBehaviour
         UpdateHealth();
     }
 
-    private void CheckDeath()
+    private bool CheckDeath()
     {
         if (health <= 0)
         {
             Destroy(player);
             health = 0;
+            return true;
         }
+        return false;
     }
 
     private void CheckOverheal()
@@ -88,7 +100,31 @@ public class PlayerStats : MonoBehaviour
         {
             healthText.text = healthText.text = Mathf.Ceil(health).ToString() + "/" + maxHealth.ToString();
         }
-        
+    }
 
+    IEnumerator BecomeTempInvincible()
+    {
+        isInvincible = true;
+        for (float i = 0; i < invincibilityTime; i += invincibilityDeltaTime)
+        {
+            // Alternate between 0 and 1 scale to simulate flashing
+            if (player.transform.localScale == Vector3.one)
+            {
+                ScalePlayer(Vector3.zero);
+            }
+            else
+            {
+                ScalePlayer(Vector3.one);
+            }
+            yield return new WaitForSeconds(invincibilityDeltaTime);
+        }
+
+        ScalePlayer(Vector3.one);
+        isInvincible = false;
+    }
+
+    private void ScalePlayer(Vector3 scale)
+    {
+        player.transform.localScale = scale;
     }
 }
