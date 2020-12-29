@@ -585,7 +585,7 @@ MonoBehaviour:
   minDamage: 5
   maxDamage: 10
   projectileSpeed: 10
-  cooldown: 3
+  cooldown: 0.5
 --- !u!1 &334304577
 GameObject:
   m_ObjectHideFlags: 0
@@ -2345,6 +2345,8 @@ MonoBehaviour:
   healthSlider: {fileID: 468848410}
   health: 0
   maxHealth: 100
+  invincibilityTime: 1.5
+  invincibilityDeltaTime: 0.15
 --- !u!4 &1675086272
 Transform:
   m_ObjectHideFlags: 0
