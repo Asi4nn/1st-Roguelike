@@ -51,8 +51,7 @@ public class PlayerStats : MonoBehaviour
         {
             health -= damage;
             UpdateHealth();
-            CheckDeath();
-            if (player != null)
+            if (!CheckDeath())
             {
                 StartCoroutine(BecomeTempInvincible());
             }
@@ -66,13 +65,15 @@ public class PlayerStats : MonoBehaviour
         UpdateHealth();
     }
 
-    private void CheckDeath()
+    private bool CheckDeath()
     {
         if (health <= 0)
         {
             Destroy(player);
             health = 0;
+            return true;
         }
+        return false;
     }
 
     private void CheckOverheal()

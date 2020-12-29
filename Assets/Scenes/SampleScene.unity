@@ -2345,8 +2345,8 @@ MonoBehaviour:
   healthSlider: {fileID: 468848410}
   health: 0
   maxHealth: 100
-  invincibilityTime: 1.5
-  invincibilityDeltaTime: 0.15
+  invincibilityTime: 1
+  invincibilityDeltaTime: 0.1
 --- !u!4 &1675086272
 Transform:
   m_ObjectHideFlags: 0
