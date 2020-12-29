@@ -26,7 +26,10 @@ public class TestProjectile : MonoBehaviour
             {
                 collision.GetComponent<Enemy>().DealDamage(damage);
             }
-            Destroy(gameObject);
+            if (!collision.CompareTag("EnemyProjectile"))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
