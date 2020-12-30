@@ -9,16 +9,23 @@ public class Door : MonoBehaviour
     // other door this door is connected to
     public Door otherDoor;
     // can initially move other player
-    protected bool canMove = true;
+    private bool canMove = true;
+    // centre of room, used to transport camera to other room
+    public Transform centre;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // check if the player is colliding with the door
-        if (collision.GetComponent<PlayerController>() && canMove)
+        if (collision.transform.GetComponent<PlayerController>() && canMove)
         {
+            // move the camera to the other room
+            Camera camera = FindObjectOfType<Camera>();
+            camera.transform.position = otherDoor.centre.position + new Vector3(0f, 0f, -10f);
+            //camera.transform.position += new Vector3(0, 20f);
+
             collision.transform.position = otherDoor.transform.position;
             canMove = false;
             otherDoor.canMove = false;
-            otherDoor.StartCoroutine(ResetCanMove(timeBetweenDoorTeleports));
             StartCoroutine(ResetCanMove(timeBetweenDoorTeleports));
         }
     }
@@ -29,5 +36,6 @@ public class Door : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         // make the player able to move between the two doors again after 5 seconds
         canMove = true;
+        otherDoor.canMove = true;
     }
 }
