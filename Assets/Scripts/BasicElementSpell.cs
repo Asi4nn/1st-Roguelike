@@ -7,14 +7,17 @@ using Random = UnityEngine.Random;
 public class BasicElementSpell : AbstractSpell
 {
     public List<GameObject> elementProjectiles;
-    
     public ElementProjectile.ElementType element;
 
     [SerializeField] List<GameObject> elementIndicators;
+    [SerializeField] float cooldown;
+
+    private bool attackOnCooldown;
 
     // Start is called before the first frame update
     void Start()
     {
+        attackOnCooldown = false;
         SetElement(0);
     }
 
@@ -39,15 +42,9 @@ public class BasicElementSpell : AbstractSpell
         }
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0) && !attackOnCooldown)
         {
-            GameObject spell = Instantiate(projectile, transform.position, Quaternion.identity);
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerPos = transform.position;
-            Vector2 direction = (mousePos - playerPos).normalized;
-            spell.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-            spell.GetComponent<ElementProjectile>().damage = Random.Range(minDamage, maxDamage);
-            spell.GetComponent<ElementProjectile>().element = element;
+            StartCoroutine(ShootProjectile());
         }
     }
 
@@ -79,5 +76,20 @@ public class BasicElementSpell : AbstractSpell
         {
             throw new System.ArgumentException("Parameter must be from 0-3", nameof(index));
         }
+    }
+
+    IEnumerator ShootProjectile()
+    {
+        attackOnCooldown = true;
+        GameObject spell = Instantiate(projectile, transform.position, Quaternion.identity);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = transform.position;
+        Vector2 direction = (mousePos - playerPos).normalized;
+        spell.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+        spell.GetComponent<ElementProjectile>().damage = Random.Range(minDamage, maxDamage);
+        spell.GetComponent<ElementProjectile>().element = element;
+
+        yield return new WaitForSeconds(cooldown);
+        attackOnCooldown = false;
     }
 }

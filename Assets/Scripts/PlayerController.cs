@@ -20,13 +20,13 @@ public class PlayerController : MonoBehaviour
         LEFT,
         RIGHT
     }
-    private Facing facingDirection = Facing.UP;
+    private Facing facingDirection;
 
     // Start is called before the first frame update
     void Start()
     {
+        facingDirection = Facing.UP;
         animator = GetComponent<Animator>();
-
         playerRb = GetComponent<Rigidbody2D>();
     }
 
@@ -43,33 +43,38 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        /*transform.Translate(direction * speed * Time.deltaTime);*/
-        playerRb.MovePosition(playerRb.position + direction * speed * Time.fixedDeltaTime);
+        transform.Translate(direction * speed * Time.deltaTime);
+        /*playerRb.MovePosition(playerRb.position + direction * speed * Time.fixedDeltaTime);*/
     }
 
     private void TakeInput()
     {
-        /*direction = Vector2.zero;
+        direction = Vector2.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
             direction += Vector2.up;
+            facingDirection = Facing.UP;
         }
         if (Input.GetKey(KeyCode.A))
         {
             direction += Vector2.left;
+            facingDirection = Facing.LEFT;
         }
         if (Input.GetKey(KeyCode.S))
         {
             direction += Vector2.down;
+            facingDirection = Facing.DOWN;
         }
         if (Input.GetKey(KeyCode.D))
         {
             direction += Vector2.right;
-        }*/
+            facingDirection = Facing.RIGHT;
+        }
+        direction = direction.normalized;
 
-        direction.x = Input.GetAxis("Horizontal");
-        direction.y = Input.GetAxis("Vertical");
+        /*direction.x = Input.GetAxis("Horizontal");
+        direction.y = Input.GetAxis("Vertical");*/
         SetAnimatorMovement();
     }
 
