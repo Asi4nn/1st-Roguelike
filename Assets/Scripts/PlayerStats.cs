@@ -39,6 +39,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        SetMaxHealth(maxHealth);
         currency = 0;
         UpdateHealth();
     }
@@ -114,7 +115,7 @@ public class PlayerStats : MonoBehaviour
 
     private void UpdateHealth()
     {
-        healthSlider.value = CalculateHealthPercent();
+        healthSlider.value = health;
         if (health < 0)
         {
             healthText.text = "0/" + maxHealth.ToString();
@@ -123,6 +124,11 @@ public class PlayerStats : MonoBehaviour
         {
             healthText.text = healthText.text = Mathf.Ceil(health).ToString() + "/" + maxHealth.ToString();
         }
+    }
+
+    public void SetMaxHealth(float health)
+    {
+        healthSlider.maxValue = health;
     }
 
     IEnumerator BecomeTempInvincible()

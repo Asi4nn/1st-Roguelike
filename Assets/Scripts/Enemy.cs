@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        healthSlider.maxValue = maxHealth;
+        healthSlider.value = health;
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class Enemy : MonoBehaviour
     {
         healthBar.SetActive(true);
         health -= damage;
-        healthSlider.value = CalculateHealthPercent();
+        healthSlider.value = health;
         CheckDeath();
     }
 
@@ -44,10 +46,5 @@ public class Enemy : MonoBehaviour
     {
         PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
         transform.Translate((player.transform.position - transform.position).normalized * speed * Time.deltaTime);
-    }
-
-    private float CalculateHealthPercent()
-    {
-        return health / maxHealth;
     }
 }
