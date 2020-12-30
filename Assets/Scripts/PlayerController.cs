@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     private Animator animator;
 
-    private Rigidbody2D playerRb;
+    //private Rigidbody2D playerRb;
 
     [SerializeField] float speed;
 
@@ -27,7 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         facingDirection = Facing.UP;
         animator = GetComponent<Animator>();
-        playerRb = GetComponent<Rigidbody2D>();
+        //playerRb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
