@@ -22,7 +22,7 @@ public class TestEnemyProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<Enemy>().DealDamage(damage);
+            PlayerStats.playerStats.DealDamage(damage);
             Destroy(gameObject);
         }
         else if (collision.CompareTag("Solid"))
