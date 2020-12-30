@@ -74,7 +74,7 @@ public class BasicElementSpell : AbstractSpell
         }
         else
         {
-            throw new System.ArgumentException("Parameter must be from 0-3", nameof(index));
+            throw new ArgumentException("Parameter must be from 0-3", nameof(index));
         }
     }
 
@@ -86,8 +86,9 @@ public class BasicElementSpell : AbstractSpell
         Vector2 playerPos = transform.position;
         Vector2 direction = (mousePos - playerPos).normalized;
         spell.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-        spell.GetComponent<ElementProjectile>().damage = Random.Range(minDamage, maxDamage);
-        spell.GetComponent<ElementProjectile>().element = element;
+        ElementProjectile proj = spell.GetComponent<ElementProjectile>();
+        proj.damage = Random.Range(minDamage, maxDamage);
+        proj.element = element;
 
         yield return new WaitForSeconds(cooldown);
         attackOnCooldown = false;
