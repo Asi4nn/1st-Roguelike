@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // want to keep character between scene changes
+        DontDestroyOnLoad(this);
         facingDirection = Facing.UP;
         animator = GetComponent<Animator>();
         //playerRb = GetComponent<Rigidbody2D>();
