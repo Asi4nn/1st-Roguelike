@@ -23,6 +23,7 @@ public class Currency : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerStats.playerStats.AddCurrency(amount);
+            amount = 0;
             Destroy(gameObject);
         }
     }
