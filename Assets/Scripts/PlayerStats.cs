@@ -18,6 +18,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] float invincibilityTime;
     [SerializeField] float invincibilityDeltaTime;
 
+    public int currency;
+    public Text currencyText;
+
     private void Awake()
     {
         if (playerStats != null)
@@ -36,6 +39,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        currency = 0;
         UpdateHealth();
     }
 
@@ -63,6 +67,25 @@ public class PlayerStats : MonoBehaviour
         health += heal;
         CheckOverheal();
         UpdateHealth();
+    }
+
+    public void AddCurrency(int amount)
+    {
+        currency += amount;
+        currencyText.text = currency.ToString();
+    }
+
+    public bool BuyWithCurrency(int cost)
+    {
+        if (cost <= currency)
+        {
+            AddCurrency(-cost);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private bool CheckDeath()

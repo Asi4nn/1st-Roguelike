@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEnemyProjectile : MonoBehaviour
+public class Currency : MonoBehaviour
 {
-    public float damage;
+    [SerializeField] int amount;
 
     // Start is called before the first frame update
     void Start()
@@ -20,13 +20,10 @@ public class TestEnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        print(collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<Enemy>().DealDamage(damage);
-            Destroy(gameObject);
-        }
-        else if (collision.CompareTag("Solid"))
-        {
+            PlayerStats.playerStats.AddCurrency(amount);
             Destroy(gameObject);
         }
     }

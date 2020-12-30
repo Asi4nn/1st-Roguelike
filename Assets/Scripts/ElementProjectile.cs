@@ -29,16 +29,14 @@ public class ElementProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name != "Player")
+        if (collision.CompareTag("Enemy"))
         {
-            if (collision.GetComponent<Enemy>() != null)
-            {
-                collision.GetComponent<Enemy>().DealDamage(damage);
-            }
-            if (!collision.CompareTag("EnemyProjectile"))
-            {
-                Destroy(gameObject);
-            }
+            collision.GetComponent<Enemy>().DealDamage(damage);
+            Destroy(gameObject);
+        }
+        else if (collision.CompareTag("Solid"))
+        {
+            Destroy(gameObject);
         }
     }
 }
