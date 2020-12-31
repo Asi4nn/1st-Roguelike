@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class StartPoint : MonoBehaviour
 {
+    public PlayerController player;
+
     // Start is called before the first frame update
     void Start()
     {
+        // make a new player on scene load
+        Instantiate(player);
+
         // find the player
         PlayerController thePlayer = FindObjectOfType<PlayerController>();
         // move the player to this position
