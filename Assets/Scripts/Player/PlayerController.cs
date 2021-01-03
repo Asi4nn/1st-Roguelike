@@ -76,11 +76,20 @@ public class PlayerController : MonoBehaviour
 
         /*direction.x = Input.GetAxis("Horizontal");
         direction.y = Input.GetAxis("Vertical");*/
-        SetAnimatorMovement();
+        if (direction != Vector2.zero)
+        {
+            SetAnimatorMovement();
+        }
+        else
+        {
+            animator.SetLayerWeight(1, 0);
+        }
+        
     }
 
     private void SetAnimatorMovement()
     {
+        animator.SetLayerWeight(1, 1);
         animator.SetFloat("xDir", direction.x);
         animator.SetFloat("yDir", direction.y);
         // print(animator.GetFloat("xDir"));
