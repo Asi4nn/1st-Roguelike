@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 direction;
 
-    private enum Facing
+    public enum Facing
     {
         UP,
         DOWN,
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
         RIGHT
     }
     private Facing facingDirection;
+    public Facing firingDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(this);
         facingDirection = Facing.UP;
         animator = GetComponent<Animator>();
-        //playerRb = GetComponent<Rigidbody2D>();
+        // playerRb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -74,6 +75,11 @@ public class PlayerController : MonoBehaviour
         }
         direction = direction.normalized;
 
+        if (Input.GetMouseButton(0))
+        {
+            facingDirection = firingDirection;
+        }
+
         /*direction.x = Input.GetAxis("Horizontal");
         direction.y = Input.GetAxis("Vertical");*/
         if (direction != Vector2.zero)
@@ -90,8 +96,16 @@ public class PlayerController : MonoBehaviour
     private void SetAnimatorMovement()
     {
         animator.SetLayerWeight(1, 1);
-        animator.SetFloat("xDir", direction.x);
-        animator.SetFloat("yDir", direction.y);
+/*        animator.SetFloat("xDir", direction.x);
+        animator.SetFloat("yDir", direction.y);*/
+
+        animator.SetBool("UP", false);
+        animator.SetBool("DOWN", false);
+        animator.SetBool("LEFT", false);
+        animator.SetBool("RIGHT", false);
+
+        animator.SetBool(facingDirection.ToString(), true);
+
         // print(animator.GetFloat("xDir"));
     }
 }
