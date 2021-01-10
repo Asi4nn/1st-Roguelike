@@ -12,22 +12,11 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 direction;
 
-    public enum Facing
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
-    private Facing facingDirection;
-    public Facing firingDirection;
-
     // Start is called before the first frame update
     void Start()
     {
         // want to keep character between scene changes
         DontDestroyOnLoad(this);
-        facingDirection = Facing.UP;
         animator = GetComponent<Animator>();
         // playerRb = GetComponent<Rigidbody2D>();
     }
@@ -56,29 +45,20 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             direction += Vector2.up;
-            facingDirection = Facing.UP;
         }
         if (Input.GetKey(KeyCode.A))
         {
             direction += Vector2.left;
-            facingDirection = Facing.LEFT;
         }
         if (Input.GetKey(KeyCode.S))
         {
             direction += Vector2.down;
-            facingDirection = Facing.DOWN;
         }
         if (Input.GetKey(KeyCode.D))
         {
             direction += Vector2.right;
-            facingDirection = Facing.RIGHT;
         }
         direction = direction.normalized;
-
-        if (Input.GetMouseButton(0))
-        {
-            facingDirection = firingDirection;
-        }
 
         /*direction.x = Input.GetAxis("Horizontal");
         direction.y = Input.GetAxis("Vertical");*/
@@ -96,15 +76,8 @@ public class PlayerController : MonoBehaviour
     private void SetAnimatorMovement()
     {
         animator.SetLayerWeight(1, 1);
-/*        animator.SetFloat("xDir", direction.x);
-        animator.SetFloat("yDir", direction.y);*/
-
-        animator.SetBool("UP", false);
-        animator.SetBool("DOWN", false);
-        animator.SetBool("LEFT", false);
-        animator.SetBool("RIGHT", false);
-
-        animator.SetBool(facingDirection.ToString(), true);
+        animator.SetFloat("xDir", direction.x);
+        animator.SetFloat("yDir", direction.y);
 
         // print(animator.GetFloat("xDir"));
     }

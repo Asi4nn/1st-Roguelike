@@ -88,20 +88,17 @@ public class BasicElementSpell : AbstractSpell
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerPos = transform.position;
         // Vector2 direction = (mousePos - playerPos).normalized;
-        PlayerController.Facing direction = CalculateFireDirection(mousePos, playerPos);
-        spell.GetComponent<Rigidbody2D>().velocity = FacingDirectionToVector(direction) * projectileSpeed;
+        Vector2 direction = CalculateFireDirection(mousePos, playerPos);
+        spell.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         ElementProjectile proj = spell.GetComponent<ElementProjectile>();
         proj.damage = Random.Range(minDamage, maxDamage);
         proj.element = element;
-
-        // update direction in player controller (this may not be the most efficient)
-        playerController.firingDirection = direction;
 
         yield return new WaitForSeconds(cooldown);
         attackOnCooldown = false;
     }
 
-    private PlayerController.Facing CalculateFireDirection(Vector2 mousePos, Vector2 playerPos)
+    private Vector2 CalculateFireDirection(Vector2 mousePos, Vector2 playerPos)
     {
         Vector2 relativeMousePos = mousePos - playerPos;
         float sqrt2Over2 = Mathf.Sqrt(2)/2;
@@ -120,39 +117,20 @@ public class BasicElementSpell : AbstractSpell
 
         if (relativeX >= 0 && relativeY >= 0)
         {
-            return PlayerController.Facing.UP;
+            return new Vector2(0, 1);
         }
         else if (relativeX >= 0 && relativeY < 0)
         {
-            return PlayerController.Facing.RIGHT;
+            return new Vector2(1, 0);
         }
         else if (relativeX < 0 && relativeY >= 0)
         {
-            return PlayerController.Facing.LEFT;
+            return new Vector2(-1, 0);
         }
         else
-        {
-            return PlayerController.Facing.DOWN;
-        }
-    }
-
-    private Vector2 FacingDirectionToVector(PlayerController.Facing facing)
-    {
-        if (facing == PlayerController.Facing.UP)
-        {
-            return new Vector2(0, 1);
-        }
-        else if (facing == PlayerController.Facing.RIGHT)
-        {
-            return new Vector2(1, 0);
-        }
-        else if (facing == PlayerController.Facing.DOWN)
         {
             return new Vector2(0, -1);
         }
-        else
-        {
-            return new Vector2(-1, 0);
-        }
     }
+
 }
